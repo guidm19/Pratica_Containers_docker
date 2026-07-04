@@ -1,18 +1,19 @@
-# Prática Containers Docker - Imagem Docker 01
+# Prática Containers Docker - Otimização de Build com Cache
 
 ## 📌 Descrição
 
-Este projeto foi desenvolvido como prática de criação de imagens Docker utilizando Node.js.
+Este projeto demonstra a criação de uma imagem Docker para uma aplicação Node.js utilizando boas práticas de construção de imagens.
 
-A aplicação executa um servidor Node.js dentro de um contêiner Docker e demonstra os conceitos básicos de construção e execução de imagens.
+O principal objetivo é otimizar o tempo de build aproveitando o mecanismo de cache do Docker. Para isso, o arquivo `package.json` é copiado antes dos demais arquivos da aplicação, permitindo que as dependências sejam reutilizadas sempre que não houver alterações.
 
 ---
 
 ## 🛠️ Tecnologias utilizadas
 
-* Node.js
+* Node.js 20
 * Docker
 * JavaScript
+* Express
 
 ---
 
@@ -37,51 +38,79 @@ imagem_docker01/
 git clone git@github.com:guidm19/Pratica_Containers_docker.git
 ```
 
-### 2. Entrar na pasta do projeto
+### 2. Acessar a pasta do projeto
 
 ```bash
 cd Pratica_Containers_docker/imagem_docker01
 ```
 
-### 3. Construir a imagem Docker
+### 3. Construir a imagem
 
 ```bash
 docker build -t imagemdocker/app-node:1.0 .
 ```
 
-### 4. Executar o contêiner
+Também é possível definir outra porta durante o build:
 
 ```bash
-docker run -d -p 8081:3000 imagemdocker/app-node:1.0
+docker build --build-arg PORT_BUILD=7000 -t imagemdocker/app-node:1.0 .
+```
+
+### 4. Executar o contêiner
+
+Se a imagem foi construída com a porta padrão (6000):
+
+```bash
+docker run -d -p 6000:6000 imagemdocker/app-node:1.0
+```
+
+Depois acesse:
+
+```text
+http://localhost:6000
 ```
 
 ---
 
-## 📦 Dockerfile
+## 📦 Explicação do Dockerfile
 
-O Dockerfile realiza as seguintes etapas:
+O Dockerfile segue uma estratégia otimizada para aproveitar o cache do Docker:
 
-* Utiliza uma imagem base do Node.js.
-* Define o diretório de trabalho.
-* Copia os arquivos da aplicação para o contêiner.
-* Instala as dependências do projeto.
+* Utiliza a imagem oficial **Node.js 20 Alpine**, que é menor e mais leve.
+* Define o diretório de trabalho com `WORKDIR`.
+* Permite configurar a porta da aplicação utilizando `ARG` e `ENV`.
+* Copia inicialmente apenas os arquivos `package.json` e `package-lock.json`.
+* Instala as dependências com `npm install`.
+* Copia o restante dos arquivos da aplicação.
 * Inicia a aplicação com `npm start`.
+
+Essa estratégia evita reinstalar todas as dependências sempre que apenas arquivos da aplicação forem modificados.
 
 ---
 
-## 📚 Objetivos de aprendizagem
+## 💡 Benefícios da otimização
 
-Durante esta prática foram exercitados os seguintes conceitos:
+* Builds mais rápidos.
+* Melhor aproveitamento do cache do Docker.
+* Menor tempo de desenvolvimento.
+* Organização das camadas da imagem.
+* Boas práticas recomendadas para projetos Node.js.
+
+---
+
+## 📚 Conceitos praticados
 
 * Criação de imagens Docker.
 * Utilização de `FROM`.
 * Utilização de `WORKDIR`.
+* Utilização de `ARG`.
+* Utilização de `ENV`.
 * Utilização de `COPY`.
-* Utilização de `RUN`.
-* Utilização de `ENTRYPOINT`.
+* Cache de camadas do Docker.
+* Instalação de dependências com `npm install`.
+* Execução da aplicação com `ENTRYPOINT`.
 * Build de imagens com `docker build`.
 * Execução de contêineres com `docker run`.
-* Mapeamento de portas.
 
 ---
 
