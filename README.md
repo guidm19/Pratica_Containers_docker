@@ -236,8 +236,6 @@ Pratica_Containers_Docker/
 
 **Guilherme Mourão**
 
-Bacharel em Sistemas de Informação • Participante da Web Academy UFAM • Desenvolvedor Full Stack em formação
-
 ---
 
 > 💡 *"A melhor forma de aprender Docker é colocando a mão na massa. Este repositório representa minha jornada de estudos, prática e evolução com containers."*
