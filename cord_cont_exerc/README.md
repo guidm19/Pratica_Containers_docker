@@ -141,6 +141,3 @@ Durante este projeto foi possível praticar:
 ## 👨‍💻 Autor
 
 **Guilherme Dinelly Mourão**
-
-Graduando em Sistemas de Informação, com foco em desenvolvimento Full Stack e estudos em Docker, Node.js, bancos de dados e desenvolvimento web.
-
